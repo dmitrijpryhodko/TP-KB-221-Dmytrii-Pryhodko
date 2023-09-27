@@ -9,7 +9,10 @@ def min(a,b):
     return a - b
 
 def div(a,b):
-    return a / b
+    if b != 0:
+     return a / b
+    if b == 0:
+        print("На нуль не ділиться")
 
 def mult(a,b):
     return a * b
@@ -23,6 +26,7 @@ elif operation == "-":
     
 elif operation == "/":
     result = div(a,b)
+
 
 elif operation == "*":
     result = mult(a,b)
