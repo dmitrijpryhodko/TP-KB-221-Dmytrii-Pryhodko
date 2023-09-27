@@ -31,3 +31,4 @@ elif operation == "/":
 elif operation == "*":
     result = mult(a,b)
 print(result)
+
