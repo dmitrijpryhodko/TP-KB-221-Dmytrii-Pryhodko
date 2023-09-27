@@ -28,5 +28,3 @@ match operation:
     case "*":
      result = mult (a , b)
 print(result)
-
-        
