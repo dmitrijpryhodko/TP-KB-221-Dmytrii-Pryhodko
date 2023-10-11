@@ -13,7 +13,6 @@ def find_pos(list, target):
 
     return left  # Позиція для вставки нового елементу
 
-# Приклад використання:
 list = [1, 3, 5, 7, 9]
 new_element = int(input("Введіть новий елемент: "))
 position = find_pos(list, new_element)

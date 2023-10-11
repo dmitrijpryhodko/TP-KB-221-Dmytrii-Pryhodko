@@ -58,6 +58,8 @@ a = fruits.copy()
 print(fruits)
 print(a)
 
+#copy - повертає копію списку
+
 
 
 

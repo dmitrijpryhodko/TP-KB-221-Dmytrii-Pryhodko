@@ -37,3 +37,7 @@ print(x)
 student = {'Name': 'Dima', 'Age': 18, 'Surname': 'Pryhod`ko'}
 x = student.items()
 print(x)
+
+#items() - розділяє дані по об'єктам
+
+
