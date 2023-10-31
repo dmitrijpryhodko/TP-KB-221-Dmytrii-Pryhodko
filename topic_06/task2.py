@@ -27,3 +27,5 @@ sorted_data = sort_data(nameandmark, parameter)
 
 for item in sorted_data:
     print(f"Name: {item['name']}, Mark: {item['mark']}")
+
+

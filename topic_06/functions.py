@@ -13,3 +13,5 @@ def div(a,b):
     if b == 0:
         print("На нуль не ділиться")
         return None
+
+
