@@ -1,11 +1,23 @@
 import csv
+import sys
 
-list = [
-    {"name":"Bob", "phone":"0631234567", "age": "18", "course": "2"},
-    {"name":"Emma", "phone":"0631234567", "age": "17", "course": "1"},
-    {"name":"Jon",  "phone":"0631234567", "age": "19", "course": "3"},
-    {"name":"Zak",  "phone":"0631234567", "age": "21", "course": "4"}
-]
+students_list = []
+
+def FileLoad(file):
+	with open(file, encoding="utf-8") as file:
+		result = csv.DictReader(file)
+		return [row for row in result]
+
+def SaveFile(file, list):
+	names = ["name", "phone", "age", "course"]
+	try:
+		with open(file, "w", newline="", encoding="utf-8") as file:
+			ResFile = csv.DictWriter(file, fieldnames=names)
+			ResFile.writeheader()
+			ResFile.writerows(list)
+		print(f"The data is saved in {file}.")
+	except IOError as e:
+		print(f"Error saving to {file}: {e}")
 
 def printAllList():
     sorted_list = sorted(list, key=lambda x: x["name"])  
@@ -72,34 +84,27 @@ def updateElement():
         print("Student not found")
 
 
-def addcsv(fname):
-    try:
-        with open(fname, 'r') as file:
-            reader = csv.DictReader(file)
-            for row in reader:
-                list.append(row)
-        print("Data loaded succesfully")
-    except FileNotFoundError:
-        print("File not found")
-    except Exception as e:
-        print(f"Error: {e}")
+list = [ ]
+AFile = None
 
-def savecsv(fname):
-    try:
-        with open(fname, 'w', newline='') as file:
-            fieldnames = ["name", "phone", "age", "course"]
-            writer = csv.DictWriter(file, fieldnames=fieldnames)
-            writer.writeheader()
-            for item in list:
-                writer.writerow(item)
-        print("Data was saved")
-    except Exception as e:
-        print(f"Error: {e}")
-            
+def main():
+	global AFile
+
+	if len(sys.argv) > 1:
+		try:
+			file = sys.argv[1]
+			list.extend(FileLoad(file))
+			print("Data loaded successfully.")
+			AFile = file
+		except IOError as e:
+			print("File upload error.")
+	else:
+		print("No CSV file specified in the command line arguments.")
+
 
 def main():
     while True:
-        chouse = input("Please specify the action [ C create, U update, D delete, P print, S save  X exit ] ")
+        chouse = input("Please specify the action [ C create, U update, D delete, P print, S save, L  X exit ] ")
         match chouse:
             case "C" | "c":
                 print("New element will be created:")
@@ -117,13 +122,25 @@ def main():
             case "X" | "x":
                 print("Exit()")
                 break
-            case "S" | "s":
-                FileCSV = input("Enter name of CSV file: ")
-                savecsv(FileCSV)
+            case "L":
+                try:
+                        file = input("Enter the name of the CSV file from which you want to download data: ")
+                        list.extend(FileLoad(file))
+                        print("Data loaded successfully.")
+                        AFile = file
+                except IOError as e:
+                        print("File upload error.")
+            case "S":
+                    file = input("Enter a name for the CSV file to save the data to: ")
+                    SaveFile(file, list)
+            case "X":
+                    print("Exit")
+                    break
             case _:
-                print("Wrong chouse")
+                    print("Wrong choice")
+                    
+if __name__ == "__main__":
+	main()
 
-
-main()
 
 
