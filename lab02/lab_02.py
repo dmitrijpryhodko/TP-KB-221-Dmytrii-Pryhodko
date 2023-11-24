@@ -1,6 +1,7 @@
 import csv
 import sys
 
+
 students_list = []
 
 def FileLoad(file):
