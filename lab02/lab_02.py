@@ -2,8 +2,6 @@ import csv
 import sys
 
 
-students_list = []
-
 def FileLoad(file):
 	with open(file, encoding="utf-8") as file:
 		result = csv.DictReader(file)
@@ -20,14 +18,14 @@ def SaveFile(file, list):
 	except IOError as e:
 		print(f"Error saving to {file}: {e}")
 
-def printAllList():
+def printAllList(list):
     sorted_list = sorted(list, key=lambda x: x["name"])  
     for elem in sorted_list:
         strForPrint = "Student name is " + elem["name"] + ",  Phone is " + elem["phone"] + ", Age is" + elem["age"] + ", Course of university is" + elem["course"]
         print(strForPrint)
     return
 
-def addNewElement():
+def addNewElement(list):
     name = input("Please enter student name : ")
     phone = input("Please enter student phone : ")
     age = input("Please enter student age : ")
@@ -45,7 +43,7 @@ def addNewElement():
     print("New element has been added")
     return
 
-def deleteElement():
+def deleteElement(list):
     name = input("Please enter name to be delated: ")
     deletePosition = -1
     for item in list:
@@ -61,7 +59,7 @@ def deleteElement():
     return
 
 
-def updateElement():
+def updateElement(list):
     name = input("Please enter name to be updated: ")
     for index, student in enumerate(list):
         if name == student["name"]:
@@ -84,6 +82,9 @@ def updateElement():
     else:
         print("Student not found")
 
+            
+
+
 
 list = [ ]
 AFile = None
@@ -105,21 +106,21 @@ def main():
 
 def main():
     while True:
-        chouse = input("Please specify the action [ C create, U update, D delete, P print, S save, L  X exit ] ")
+        chouse = input("Please specify the action [ C create, U update, D delete, P print, S save, L load, X exit ] ")
         match chouse:
             case "C" | "c":
                 print("New element will be created:")
-                addNewElement()
-                printAllList()
+                addNewElement(list)
+                printAllList(list)
             case "U" | "u":
                 print("Existing element will be updated")
-                updateElement()
+                updateElement(list)
             case "D" | "d":
                 print("Element will be deleted")
-                deleteElement()
+                deleteElement(list)
             case "P" | "p":
                 print("List will be printed")
-                printAllList()
+                printAllList(list)
             case "X" | "x":
                 print("Exit()")
                 break
