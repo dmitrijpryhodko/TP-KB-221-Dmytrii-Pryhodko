@@ -10,8 +10,8 @@ class TestScript(unittest.TestCase):
     def setUp(self):
         self.test_file = "lab02.csv"
         self.list = [
-            {"name": "Emma", "phone": "1111", "age": "23", "course": "5"},
-            {"name": "Bob", "phone": "2222", "age": "19", "course": "3"},
+            {"name": "Bob", "phone": "1111", "age": "23", "course": "5"},
+            {"name": "Emma", "phone": "2222", "age": "19", "course": "3"},
         ]
 
     def tearDown(self):
@@ -53,9 +53,9 @@ class TestScript(unittest.TestCase):
             self.assertEqual(len(self.list), 2)
 
     def test_updateElement(self):
-        with patch('builtins.input', side_effect=["Bob", "Jack", "123456789", "23", "5"]):
+        with patch('builtins.input', side_effect=["Emma", "Jane", "123456789", "23", "5"]):
             updateElement(self.list)
-            self.assertEqual(self.list[1]["name"], "Jack")
+            self.assertEqual(self.list[1]["name"], "Jane")
 
 
 
