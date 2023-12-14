@@ -1,53 +1,79 @@
-operators = {'+', '-', '*', '/', '^'}
+digits = ('1', '2', '3', '4', '5', '6', '7', '8', '9', '0')
+operations = ('+', '-', '*', '/', '^')
 
-def token_list(tokens):
+def isNumber(unit):
+    return all(char in digits for char in unit)
+
+def math_operation(operation):
+    if operation in ('+', '-'):
+        return 0
+    elif operation in ('*', '/'):
+        return 1
+    elif operation == '^':
+        return 2
+
+def Rpn(input):
     stack = []
-    operatorStack = []
+    output = []
 
-    def math_operators():
-        a, b = stack.pop(), stack.pop()
-        operator = operatorStack.pop()
-        if operator == '+':
-            stack.append(b + a)
-        elif operator == '-':
-            stack.append(b - a)
-        elif operator == '*':
-            stack.append(b * a)
-        elif operator == '/':
-            stack.append(int(b / a))
-        elif operator == '^':
-            stack.append(b ** a)
+    for token in input.split(' '):
+        if isNumber(token):
+            output.append(token)
+            continue
 
-    for token in tokens:
         if token == '(':
-            operatorStack.append(token)
-        elif token == ')':
-            while operatorStack and operatorStack[-1] != '(':
-                math_operators()
-            operatorStack.pop()
-        elif token in operators:
-            while operatorStack and operatorStack[-1] in operators:
-                current_operator = operatorStack[-1]
-                priority = {'+': 1, '-': 1, '*': 2, '/': 2, '^': 3}
-                if priority.get(token, 0) <= priority.get(current_operator, 0):
-                    math_operators()
-                else:
-                    break
+            stack.append(token)
+            continue
 
-            operatorStack.append(token)
+        if token == ')':
+            while stack and stack[-1] != '(':
+                output.append(stack.pop())
+            stack.pop()
+            continue
+
+        if token in operations:
+            opPriority = math_operation(token)
+            while stack and stack[-1] in operations and math_operation(stack[-1]) >= opPriority:
+                output.append(stack.pop())
+            stack.append(token)
+
+    while stack:
+        output.append(stack.pop())
+
+    return output
+
+def RpnRes(rpn):
+    stack = []
+
+    for token in rpn:
+        if isNumber(token):
+            stack.append(token)
         else:
-            stack.append(int(token))
+            b = float(stack.pop())
+            a = float(stack.pop())
+            result = 0
 
-    while operatorStack:
-        math_operators()
+            if token == '+':
+                result = a + b
+            elif token == '-':
+                result = a - b
+            elif token == '*':
+                result = a * b
+            elif token == '/':
+                result = a / b
+            elif token == '^':
+                result = a ** b
 
-    return stack.pop()
+            stack.append(result)
+
+    return stack
 
 def main():
-    expression = input("Введіть вираз в ЗПЗ: ")
-    tokens = expression.split()
-    result = token_list(tokens)
-    print(result)
+    expression = input("Введіть математичний вираз: ")
+    rpn = Rpn(expression)
+    
+    print("Зворотній польський запис:", rpn)
+    print("Результат:", RpnRes(rpn))
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()
